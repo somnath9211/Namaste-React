@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    padding: 0;
+    padding: 16px;
     font-family: Arial, sans-serif;
 }
 
@@ -187,9 +187,5 @@ body {
 
 .app-layout main {
     margin-top: 16px;
-    /* Adds space between the header and body */
-}
 
-.body {
-    padding: 16px;
 }
