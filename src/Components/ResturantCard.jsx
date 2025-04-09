@@ -3,7 +3,7 @@ import { CloudinaryImageLink } from "../utils/constent"; // Import the Cloudinar
 
 const RestaurantCard = (props) => {
     const { resData } = props; // Destructure the props
-    const { name, cuisines, avgRating, deliveryTime, cloudinaryImageId, costForTwoString } = resData.data;
+    const { name, cuisines, avgRating, deliveryTime, cloudinaryImageId, costForTwo } = resData; // Directly destructure from resData
 
     return (
         <div className="res-card">
@@ -19,8 +19,7 @@ const RestaurantCard = (props) => {
                     <span className={`res-rating ${avgRating >= 4 ? "high-rating" : "low-rating"}`}>
                         ⭐ {avgRating}
                     </span>
-                    <span className="res-delivery-time">{deliveryTime} mins</span>
-                    <span className="res-cost">{costForTwoString}</span>
+                    <span className="res-cost">{costForTwo}</span>
                 </div>
             </div>
         </div>
