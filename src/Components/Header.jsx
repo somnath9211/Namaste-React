@@ -27,14 +27,6 @@ const Header = () => {
                     </li>
                 </ul>
             </div>
-            <div className="search-bar">
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search for restaurants..."
-                />
-                <button className="search-button">Search</button>
-            </div>
         </div>
     );
 };
