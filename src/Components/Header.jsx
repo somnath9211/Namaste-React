@@ -1,29 +1,74 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import { BRAND_LOGO } from "../utils/constent";
+import { FaHome, FaUser, FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
     return (
-        <div className="header">
-            <div className="logo-container">
+        <div className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+            {/* Logo Section */}
+            <div className="flex items-center space-x-4">
                 <img
-                    className="logo"
+                    className="h-12 w-12 object-contain"
                     src={BRAND_LOGO}
                     alt="brand_logo"
                 />
-                <h1 className="brand-name">FoodieHub</h1>
+                <h1 className="text-2xl font-bold text-gray-800">FoodieHub</h1>
             </div>
-            <div className="nav-items">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
+
+            {/* Location Section */}
+            <div className="flex items-center space-x-2 text-gray-600">
+                <span className="text-sm font-medium">Purulia, West Bengal, India</span>
+                <span className="text-lg">▼</span>
+            </div>
+
+            {/* Navigation Section */}
+            <div className="flex items-center space-x-6">
+                <ul className="flex items-center space-x-6">
                     <li>
-                        <a href="#cart">
-                            <img
-                                className="cart-logo"
-                                src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
-                                alt="cart"
-                            />
-                        </a>
+                        <Link
+                            to="/"
+                            className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+                        >
+                            <FaHome className="text-lg" />
+                            <span className="text-sm font-medium">Home</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/about"
+                            className="text-gray-700 hover:text-gray-900 text-sm font-medium"
+                        >
+                            About Us
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/contact"
+                            className="text-gray-700 hover:text-gray-900 text-sm font-medium"
+                        >
+                            Contact Us
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/profile"
+                            className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+                        >
+                            <FaUser className="text-lg" />
+                            <span className="text-sm font-medium">Somnath</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/cart"
+                            className="relative flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+                        >
+                            <FaShoppingCart className="text-lg" />
+                            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                0
+                            </span>
+                        </Link>
                     </li>
                 </ul>
             </div>
