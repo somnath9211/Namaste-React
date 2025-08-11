@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { CloudinaryImageLink } from "../utils/constent.jsx";
+import { useDispatch } from "react-redux"
+import { addItem } from "../store/CartSlice.jsx";
 
 const MenuItem = ({ items }) => {
     // useEffect(() => {
@@ -7,7 +9,12 @@ const MenuItem = ({ items }) => {
     // }, []); // Log when props change
     const { name, price, ratings, imageId } = items?.card?.info; // Destructure properties for cleaner code
     // console.log(name); // Log the menu item data for debugging
+    const dispatch = useDispatch();
 
+    const handleAddToCart = (item) => {
+
+        dispatch(addItem(item))
+    }
     return (
 
         <div className="menu-item flex justify-between items-center border-b border-gray-200 py-4">
@@ -32,7 +39,7 @@ const MenuItem = ({ items }) => {
                     alt={name}
                     className="menu-item-image w-20 h-20 object-cover rounded-lg mb-2"
                 />
-                <button className="menu-item-add-button bg-green-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                <button className="menu-item-add-button bg-green-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-green-600 transition cursor-pointer" onClick={() => handleAddToCart(items)}>
                     ADD
                 </button>
             </div>

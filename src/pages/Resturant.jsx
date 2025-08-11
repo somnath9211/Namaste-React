@@ -58,22 +58,6 @@ const Resturant = () => {
                         </span>
                     </button>
                 </div>
-
-                {/* Menu Tags */}
-                <div className="menu-tags flex justify-center space-x-4 mb-8">
-                    <button className="menu-tag flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-                        <span role="img" aria-label="veg" className="tag-icon">
-                            🌱
-                        </span>
-                        <span>Pure Veg</span>
-                    </button>
-                    <button className="menu-tag flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-                        <span role="img" aria-label="bestseller" className="tag-icon">
-                            ⭐
-                        </span>
-                        <span>Bestseller</span>
-                    </button>
-                </div>
             </div>
 
             {/* Menu Card Section */}

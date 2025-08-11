@@ -8,14 +8,14 @@ const useResturantMenu = (resId) => {
 
     useEffect(() => {
         fetchData(resId);
-    })
+    }, [resId]); // Fetch data when resId changes
 
     const fetchData = async (resId) => {
         const data = await fetch(MENU_API_URL + resId);
         const json = await data.json();
         setResInfo(json?.data?.cards[2]?.card?.card?.info); // Set restaurant data
         setMenuData(json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(c => c.card?.card?.["@type"] == 'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory') || []); // Set menu data
-        // console.log(json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
+        console.log(json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
     }
 
     return { resInfo, menuData };
