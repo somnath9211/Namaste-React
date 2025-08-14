@@ -1,128 +1,116 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addItem, removeItem, clearCart } from "../store/CartSlice";
 import { CloudinaryImageLink } from "../utils/constent.jsx";
+import useCartStore from "../store/appStore.jsx";
 
 const Cart = () => {
-    const dispatch = useDispatch();
-    const cartItems = useSelector((store) => store.cart.items); // Access the cart items from the Redux store
-    console.log("Cart Items:", cartItems); // Log the cart items for debugging
+    const cartItems = useCartStore(state => state.cart);
+    const addItem = useCartStore(state => state.addItem);
+    const removeItem = useCartStore(state => state.removeItem);
+    const clearCart = useCartStore(state => state.clearCart);
 
-    // Function to calculate the total price
     const calculateTotal = () => {
         return cartItems
             .reduce((total, item) => {
-                const price = item?.card?.info?.price / 100 || 0; // Use 0 if price is undefined
-                const quantity = item.quantity || 1; // Use 1 if quantity is undefined
+                const price = item?.card?.info?.price / 100 || 0;
+                const quantity = item.quantity || 1;
                 return total + price * quantity;
             }, 0)
             .toFixed(2);
     };
 
-    // Function to handle increasing the quantity of an item
     const handleIncreaseQuantity = (item) => {
-        dispatch(addItem({ item })); // Add 1 to the item's quantity
+        addItem(item);
     };
 
-    // Function to handle decreasing the quantity of an item
     const handleDecreaseQuantity = (id) => {
         const item = cartItems.find((item) => item.card.info.id === id);
         if (item.quantity > 1) {
-            dispatch(removeItem(id)); // Decrease the quantity by 1
+            removeItem(id);
         } else {
-            dispatch(removeItem(id)); // Remove the item if quantity is 1
+            removeItem(id);
         }
     };
 
-    // Function to handle clearing the cart
     const handleClearCart = () => {
-        dispatch(clearCart()); // Dispatch the clearCart action
+        clearCart();
     };
 
     return (
-        <div className="cart-page container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Your Cart</h1>
+        <div className="cart-page container mx-auto px-2 md:px-8 py-8 min-h-screen bg-gray-50">
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-10 text-center tracking-tight">Your Cart</h1>
             {cartItems.length === 0 ? (
-                <p className="text-gray-600 text-center text-lg">
-                    Your cart is empty. Add some delicious food to your cart!
-                </p>
+                <div className="flex flex-col items-center justify-center py-16">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Empty Cart" className="w-32 h-32 mb-6 opacity-70" />
+                    <p className="text-gray-500 text-xl font-medium">Your cart is empty.<br />Add some delicious food!</p>
+                </div>
             ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="flex flex-col lg:flex-row gap-8">
                     {/* Cart Items */}
-                    <div className="lg:col-span-2 space-y-6">
-                        {cartItems.map((item, index) => (
+                    <div className="flex-1 space-y-6">
+                        {cartItems.map((item) => (
                             <div
-                                key={`${item?.card?.info?.id}-${index}`} // Combine item ID and index to ensure uniqueness
-                                className="cart-item flex justify-between items-center border border-gray-200 rounded-lg p-4 shadow-md"
+                                key={item.card.info.id}
+                                className="cart-item flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-xl shadow hover:shadow-lg transition p-4"
                             >
                                 {/* Item Photo */}
                                 <img
                                     src={`${CloudinaryImageLink}${item?.card?.info?.imageId}`}
                                     alt={item?.card?.info?.name || "Item"}
-                                    className="h-20 w-20 object-cover rounded-lg"
+                                    className="h-24 w-24 object-cover rounded-lg mb-4 md:mb-0 md:mr-6 border"
                                 />
 
                                 {/* Item Details */}
-                                <div className="flex-1 ml-4">
-                                    <h2 className="text-lg font-semibold text-gray-800">
+                                <div className="flex-1 w-full md:w-auto">
+                                    <h2 className="text-xl font-semibold text-gray-800 mb-1">
                                         {item?.card?.info?.name || "Unnamed Item"}
                                     </h2>
-                                    <p className="text-gray-600">
-                                        Price: ₹{(item?.card?.info?.price / 100 || 0).toFixed(2)}
+                                    <p className="text-gray-600 text-base">
+                                        Price: <span className="font-bold">₹{(item?.card?.info?.price / 100 || 0).toFixed(2)}</span>
                                     </p>
-                                    <p className="text-gray-600">
-                                        Total: ₹
-                                        {((item?.card?.info?.price / 100 || 0) * (item.quantity || 1)).toFixed(2)}
+                                    <p className="text-gray-600 text-base">
+                                        Total: <span className="font-bold">₹{((item?.card?.info?.price / 100 || 0) * (item.quantity || 1)).toFixed(2)}</span>
                                     </p>
                                 </div>
 
                                 {/* Quantity Controls */}
-                                <div className="quantity-controls flex items-center space-x-4">
-                                    <button
-                                        className="bg-gray-300 text-gray-800 px-2 py-1 rounded-lg hover:bg-gray-400"
-                                        onClick={() => handleDecreaseQuantity(item.card.info.id)}
-                                    >
-                                        -
-                                    </button>
-                                    <span className="text-lg font-medium">{item.quantity || 1}</span>
-                                    <button
-                                        className="bg-gray-300 text-gray-800 px-2 py-1 mx-2 rounded-lg hover:bg-gray-400"
-                                        onClick={() => handleIncreaseQuantity(item)}
-                                    >
-                                        +
-                                    </button>
+                                <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-4 md:mt-0">
+                                    <div className="flex items-center bg-gray-100 rounded-lg px-2 py-1">
+                                        <button
+                                            className="bg-gray-300 text-gray-800 px-2 py-1 rounded-lg hover:bg-gray-400 transition"
+                                            onClick={() => handleDecreaseQuantity(item.card.info.id)}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="text-lg font-semibold mx-3">{item.quantity || 1}</span>
+                                        <button
+                                            className="bg-gray-300 text-gray-800 px-2 py-1 rounded-lg hover:bg-gray-400 transition"
+                                            onClick={() => handleIncreaseQuantity(item)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
-
-                                {/* Remove Button */}
-                                <button
-                                    className="remove-button bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                                    onClick={() => handleDecreaseQuantity(item.card.info.id)}
-                                >
-                                    Remove
-                                </button>
                             </div>
                         ))}
                     </div>
 
                     {/* Cart Summary */}
-                    <div className="cart-summary bg-gray-100 p-6 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Cart Summary</h2>
-                        <p className="text-lg text-gray-600 mb-4">
-                            Total Price: <span className="font-bold">₹{calculateTotal()}</span>
+                    <div className="cart-summary bg-white p-8 rounded-xl shadow-md flex flex-col justify-between min-w-[300px] h-fit">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Cart Summary</h2>
+                        <p className="text-lg text-gray-600 mb-6 text-center">
+                            Total Price: <span className="font-bold text-2xl text-green-600">₹{calculateTotal()}</span>
                         </p>
-                        <div className="flex flex-col space-y-4">
-                            <button
-                                className="checkout-button bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
-                            >
-                                Proceed to Checkout
-                            </button>
-                            <button
-                                className="clear-cart-button bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
-                                onClick={handleClearCart}
-                            >
-                                Clear Cart
-                            </button>
-                        </div>
+                        <button
+                            className="checkout-button bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition mb-4"
+                        >
+                            Proceed to Checkout
+                        </button>
+                        <button
+                            className="clear-cart-button bg-red-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-600 transition"
+                            onClick={handleClearCart}
+                        >
+                            Clear Cart
+                        </button>
                     </div>
                 </div>
             )}

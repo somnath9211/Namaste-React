@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { BRAND_LOGO } from "../utils/constent";
 import { FaHome, FaUser, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import useCartStore from "../store/appStore"; // <-- Import Zustand store
 
 const Header = () => {
     const [navOpen, setNavOpen] = useState(false);
-    const cart = useSelector((store) => store.cart.items);
+    const cart = useCartStore(state => state.cart); // <-- Get cart from Zustand
     const cartItemsCount = cart.length;
 
     return (
